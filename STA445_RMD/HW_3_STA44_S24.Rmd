@@ -1,0 +1,71 @@
+---
+title: "STA 445 HW3"
+author: "Ryan Joel"
+date: "March 5, 2024"
+output: pdf_document
+---
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(readr)
+library(readxl)
+```
+
+## Problem 1
+
+Download from GitHub the data file [Example_5.xls](https://github.com/dereksonderegger/444/raw/master/data-raw/Example_5.xls). Open it in Excel and figure out which sheet of data we should import into R. At the same time figure out how many initial rows need to be skipped. Import the data set into a data frame and show the structure of the imported data using the `str()` command. Make sure that your data has $n=31$ observations and the three columns are appropriately named. If you make any modifications to the data file, comment on those modifications.
+```{r}
+tree <- read_excel('Example_5.xls', sheet='RawData', range='A5:C36')
+str(tree)
+```
+
+## Problem 2
+
+Download from GitHub the data file  [Example_3.xls](https://github.com/dereksonderegger/444/raw/master/data-raw/Example_3.xls). Import the data set into a data frame and show the structure of the imported data using the `tail()` command which shows the last few rows of a data table.  Make sure the Tesla values are `NA` where appropriate and that both `-9999` and `NA` are imported as NA values. If you make any modifications to  the data file, comment on those modifications.
+```{r}
+car.ex <- read_excel("Example_3.xls", sheet='data', range='A1:L34', na= c('NA', '-9999'))
+tail(car.ex)
+```
+
+## Problem 3
+
+Download all of the files from GitHub `data-raw/InsectSurveys` directory 
+[here.](https://github.com/dereksonderegger/444/raw/master/data-raw/InsectSurveys) Each month's file contains a sheet contains site level information about each of the sites that was surveyed. The second sheet contains information about the number of each species that was observed at each site. Import the data for each month and create a single `site` data frame with information from each month. Do the same for the `observations`. Document any modifications you make to the data files. Comment on the importance of consistency of your data input sheets.
+
+Sites
+```{r}
+site <-
+October.new <- read_excel("October.xlsx", sheet= 1, range = 'A1:F10')
+September.new <- read_excel("September.xlsx", sheet= 1, range = 'A1:F10')
+August.new <- read_excel("August.xlsx", sheet= 1, range='A1:F10')
+July.new <- read_excel("July.xlsx", sheet=1, range = 'A1:F10')
+June.new <- read_excel("June.xlsx", sheet=1, range = 'A1:F10')
+May.new <- read_excel("May.xlsx", sheet=1, range = 'A1:F10')
+#For this problem I had to change the date format for the excels for each month.
+#I made sure the order of the sheets was consistent in each one to conveniently type 'sheet=1' 
+#in the code.
+#I fixed inconsistent capitalization in the column names.
+#I deleted the "did not observe" from the October dataset, so that R could read the files in correctly.
+#Overall, it was important to keep all sheets in cosistent order and format so that R could correctly
+#synthesize the existing excels into a new dataframe, like we did in this exercise. 
+site
+```
+Observations
+```{r}
+observations <-
+October.new2 <- read_excel("October.xlsx", sheet= 2, range = 'A1:C37')
+September.new2 <- read_excel("September.xlsx", sheet= 2, range = 'A1:C37')
+August.new2 <- read_excel("August.xlsx", sheet= 2, range='A1:C37')
+July.new2 <- read_excel("July.xlsx", sheet=2, range = 'A1:C37')
+June.new2 <- read_excel("June.xlsx", sheet=2, range = 'A1:C37')
+May.new2 <- read_excel("May.xlsx", sheet=2, range = 'A1:C37')
+#I made sure the order of the sheets was consistent in each one to conveniently type 'sheet=2' 
+#in the code.
+#I fixed inconsistent capitalization in the column names, which only occured once in the July dataset
+#in the 'Species' column.
+#All items/ values that were N/A were already had blank cells, so I did not need to edit that this time.
+#Overall, it was important to keep all sheets in cosistent order and format so that R could correctly
+#synthesize the existing excels into a new dataframe, like we did in this exercise. 
+observations
+```
+
